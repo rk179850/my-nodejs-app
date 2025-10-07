@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker-compose build web"
+                    bat 'docker-compose build web'
                 }
             }
         }
@@ -19,9 +19,9 @@ pipeline {
         stage('Deploy Multi-Container App') {
             steps {
                 script {
-                    sh "docker stop node-web node-mongo-db || true"
-                    sh "docker rm node-web node-mongo-db || true"
-                    sh "BUILD_NUMBER=${env.BUILD_NUMBER} docker-compose up -d"
+                    bat 'docker stop node-web node-mongo-db || exit 0'
+                    bat 'docker rm node-web node-mongo-db || exit 0'
+                    bat "set BUILD_NUMBER=${env.BUILD_NUMBER} && docker-compose up -d"
                 }
             }
         }
