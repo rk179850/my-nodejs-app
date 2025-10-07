@@ -19,9 +19,15 @@ pipeline {
         stage('Deploy Multi-Container App') {
             steps {
                 script {
+                    // Stop and remove containers if they exist
                     bat 'docker stop node-web node-mongo-db || exit 0'
                     bat 'docker rm node-web node-mongo-db || exit 0'
-                    bat "set BUILD_NUMBER=${env.BUILD_NUMBER} && docker-compose up -d"
+
+                    // Create .env file with BUILD_NUMBER for Docker Compose
+                    writeFile file: '.env', text: "BUILD_NUMBER=${env.BUILD_NUMBER}"
+
+                    // Deploy containers using the .env file
+                    bat 'docker-compose --env-file .env up -d'
                 }
             }
         }
