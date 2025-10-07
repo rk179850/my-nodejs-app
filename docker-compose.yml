@@ -3,7 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: my-nodejs-app:${BUILD_NUMBER}
+    image: my-nodejs-app:latest
+
     container_name: node-web
     restart: always
     ports:
