@@ -1,12 +1,9 @@
-version: '3.8'
-
 services:
-  # Node.js Web Service
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    image: my-nodejs-app:${BUILD_NUMBER:-latest}
+    image: my-nodejs-app:${BUILD_NUMBER}
     container_name: node-web
     restart: always
     ports:
@@ -17,7 +14,6 @@ services:
       - DB_HOST=db
       - DB_PORT=27017
 
-  # MongoDB Database Service
   db:
     image: mongo:latest
     container_name: node-mongo-db
